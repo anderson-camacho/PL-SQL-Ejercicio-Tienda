@@ -76,3 +76,51 @@ BEGIN
     v_precio_prducto:=fn_precio_producto(4);
     dbms_output.put_line('El precio $'||v_precio_prducto);
 END;
+
+
+
+--LOS PRODUCTOS QUE COMPRO EL CLIENTE. BLOQUE ANONIMO
+
+DECLARE
+    v_id_cliente cliente.id%type:=7;
+    v_cliente cliente%rowtype;
+    v_pedido pedido%rowtype;
+    v_producto producto%rowtype;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('EL CLIENTE '||v_id_cliente||' HA COMPRADO LO SIGUIENTE:');
+    FOR I IN (select CLIENTE_ID, PURCHASE_DATE, ID_PRODUCTO, CODE from PEDIDO)
+    LOOP
+        IF I.CLIENTE_ID = v_id_cliente THEN
+            DBMS_OUTPUT.PUT_LINE('EN LA COMPRA CON CODIGO '||I.CODE
+                                ||' COMPRO EL PRODUCTO '||I.ID_PRODUCTO);
+        END IF;
+        
+    END LOOP;
+END;
+
+
+--LOS PRODUCTOS QUE COMPRO EL CLIENTE EN PROCEDIMEITNO
+
+
+
+create or replace PROCEDURE pr_consulta_pedidos(v_id_cliente cliente.id%type)
+as
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('EL CLIENTE '||v_id_cliente||' HA COMPRADO LO SIGUIENTE:');
+    FOR I IN (select CLIENTE_ID, PURCHASE_DATE, ID_PRODUCTO, CODE from PEDIDO)
+    LOOP
+        IF I.CLIENTE_ID = v_id_cliente THEN
+            DBMS_OUTPUT.PUT_LINE('EN LA COMPRA CON CODIGO '||I.CODE
+                                ||' COMPRO EL PRODUCTO '||I.ID_PRODUCTO);
+        END IF;
+        
+    END LOOP;
+END;
+
+
+
+---ejecucionm de la funcionm pr_conuslta_pedidos
+
+begin
+    pr_consulta_pedidos(7);
+end;
