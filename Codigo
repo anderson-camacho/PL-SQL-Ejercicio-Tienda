@@ -13,3 +13,40 @@ cliente /insert 15
 producto /insert 10
     name
     price number
+
+
+
+--Consulta SQL
+
+--consultas simples
+select *
+from cliente
+
+select *
+from producto
+
+select *
+from pedido
+--consultas join
+select *
+from pedido p join cliente c on p.cliente_id = c.id join producto pr on p.id_producto = pr.id
+
+select c.name, p.code. pr.name, pr.price
+from pedido p join cliente c on p.cliente_id = c.id join producto pr on p.id_producto = pr.id
+
+select p.code, pr.name, pr.price, c.first_name
+from pedido p join cliente c on p.cliente_id = c.id join producto pr on p.id_producto = pr.id
+where c.id = 7 or c.id = 8
+order by p.code
+
+--PL/SQL
+
+DECLARE
+    v_id_producto producto.id%type:=1;
+    v_producto producto%rowtype;
+BEGIN
+    select * into v_producto
+    from producto 
+    where id = v_id_producto;
+    DBMS_OUTPUT.PUT_LINE('El producto '|| v_producto.name ||' con el precio '||v_producto.price);
+end;
