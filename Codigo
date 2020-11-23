@@ -1,2 +1,15 @@
 -- Codigo de la clase
 --Quick SQL
+
+cliente /insert 15
+    first_name
+    address
+    phone number number
+    email
+    pedido /insert 17
+        code /pk
+        purchase date date
+        id producto /fk producto
+producto /insert 10
+    name
+    price number
