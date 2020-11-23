@@ -41,6 +41,7 @@ order by p.code
 
 --PL/SQL
 
+--consultar precio especifico
 DECLARE
     v_id_producto producto.id%type:=1;
     v_producto producto%rowtype;
@@ -48,5 +49,30 @@ BEGIN
     select * into v_producto
     from producto 
     where id = v_id_producto;
-    DBMS_OUTPUT.PUT_LINE('El producto '|| v_producto.name ||' con el precio '||v_producto.price);
-end;
+    DBMS_OUTPUT.PUT_LINE('El producto '|| v_producto.name ||' con el precio $'||v_producto.price);
+END;
+
+
+--funcion de consulta de precio
+
+CREATE OR REPLACE FUNCTION fn_precio_producto(v_id_producto producto.id%type)
+RETURN producto.price%type
+AS  
+    v_producto producto%rowtype;
+BEGIN
+    select * into v_producto
+    from PRODUCTO 
+    where id = v_id_producto;
+    RETURN v_producto.price;
+END fn_precio_producto;
+
+
+--bloque anonimo de ejecucion de la consulta de precio
+
+DECLARE
+    v_id_producto producto.id%type:=1;
+    v_precio_prducto producto.price%type;
+BEGIN
+    v_precio_prducto:=fn_precio_producto(4);
+    dbms_output.put_line('El precio $'||v_precio_prducto);
+END;
